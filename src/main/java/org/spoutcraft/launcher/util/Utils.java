@@ -276,6 +276,9 @@ public class Utils {
 		while (entries.hasMoreElements()) {
 			JarEntry entry = entries.nextElement();
 			File file = new File(dest, entry.getName());
+			if (!file.toPath().normalize().startsWith(dest.toPath().normalize())) {
+				throw new IOException("Bad zip entry");
+			}
 			if (ignores != null) {
 				boolean skip = false;
 				for (String path : ignores) {
